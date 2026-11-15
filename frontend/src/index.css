@@ -1,111 +1,124 @@
+@import 'tailwindcss';
+
+/* Dark mode is driven by <html data-theme="dark">, not the media query,
+   so users can override the system setting. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ── Design tokens ─────────────────────────────────────────── */
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --sb-bg: #f7f9fc;
+  --sb-surface: #ffffff;
+  --sb-surface-2: #eef2f8;
+  --sb-border: #dde3ee;
+  --sb-text: #202534;
+  --sb-muted: #5f6880;
+  --sb-primary: #243b6b;
+  --sb-primary-hover: #1b2d53;
+  --sb-on-primary: #ffffff;
+  --sb-secondary: #5276b8;
+  --sb-accent: #6c8ef5;
+  --sb-accent-soft: #e8edfe;
+  --sb-success: #0f7a4f; /* #16A36A darkened for AA text contrast */
+  --sb-success-soft: #e3f6ee;
+  --sb-warning: #b45309;
+  --sb-warning-soft: #fef3c7;
+  --sb-error: #dc2626;
+  --sb-error-soft: #fde8e8;
+  --sb-focus: #6c8ef5;
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+:root[data-theme='dark'] {
+  --sb-bg: #0e1320;
+  --sb-surface: #161d2d;
+  --sb-surface-2: #1d2639;
+  --sb-border: #2b3550;
+  --sb-text: #e7eaf3;
+  --sb-muted: #a0a9bf;
+  --sb-primary: #8fa8f8;
+  --sb-primary-hover: #a9bdfa;
+  --sb-on-primary: #0e1320;
+  --sb-secondary: #7d9bd6;
+  --sb-accent: #8fa8f8;
+  --sb-accent-soft: #1f2a48;
+  --sb-success: #3ccf8e;
+  --sb-success-soft: #12301f;
+  --sb-warning: #fbbf24;
+  --sb-warning-soft: #33280e;
+  --sb-error: #f87171;
+  --sb-error-soft: #3a1717;
+  --sb-focus: #a9bdfa;
+}
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+/* High-contrast preference: stronger borders and text. */
+:root[data-contrast='high'] {
+  --sb-border: #4b5368;
+  --sb-muted: #202534;
+}
+:root[data-theme='dark'][data-contrast='high'] {
+  --sb-border: #8a93aa;
+  --sb-muted: #e7eaf3;
+}
+
+@theme inline {
+  --color-bg: var(--sb-bg);
+  --color-surface: var(--sb-surface);
+  --color-surface-2: var(--sb-surface-2);
+  --color-border: var(--sb-border);
+  --color-text: var(--sb-text);
+  --color-muted: var(--sb-muted);
+  --color-primary: var(--sb-primary);
+  --color-primary-hover: var(--sb-primary-hover);
+  --color-on-primary: var(--sb-on-primary);
+  --color-secondary: var(--sb-secondary);
+  --color-accent: var(--sb-accent);
+  --color-accent-soft: var(--sb-accent-soft);
+  --color-success: var(--sb-success);
+  --color-success-soft: var(--sb-success-soft);
+  --color-warning: var(--sb-warning);
+  --color-warning-soft: var(--sb-warning-soft);
+  --color-error: var(--sb-error);
+  --color-error-soft: var(--sb-error-soft);
+  --color-focus: var(--sb-focus);
+  --font-sans: 'Atkinson Hyperlegible Next Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+html {
+  background: var(--sb-bg);
+  color: var(--sb-text);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
 }
 
 body {
   margin: 0;
+  min-height: 100dvh;
+  background: var(--sb-bg);
+  line-height: 1.55;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+:focus-visible {
+  outline: 3px solid var(--sb-focus);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+::selection {
+  background: var(--sb-accent-soft);
+}
+
+/* Reduced motion: honour both the OS setting and the in-app preference. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+:root[data-motion='reduced'] *,
+:root[data-motion='reduced'] *::before,
+:root[data-motion='reduced'] *::after {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }

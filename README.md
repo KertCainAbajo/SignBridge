@@ -1,16 +1,19 @@
 # SignBridge
 
-Monorepo with a Laravel API backend and a React web frontend.
+AI-assisted Filipino Sign Language (FSL) communication and learning platform.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design and roadmap.
 
 ```
-backend/   Laravel 13 API (Sanctum auth, SQLite by default)
-frontend/  React 19 + TypeScript + Vite (axios, react-router)
+backend/   Laravel 13 REST API (Sanctum SPA auth, spatie roles/permissions)
+frontend/  React 19 + TypeScript + Vite + Tailwind CSS 4
+docs/      Architecture & plan
 ```
 
 ## Requirements
 
 - PHP 8.3+ and Composer
 - Node.js 20+ and npm
+- MySQL 8 (local development) — production uses PostgreSQL on Supabase
 
 ## First-time setup
 
@@ -18,9 +21,10 @@ frontend/  React 19 + TypeScript + Vite (axios, react-router)
 # Backend
 cd backend
 composer install
-cp .env.example .env
+cp .env.example .env          # then set DB_* and SUPERADMIN_* values
 php artisan key:generate
 php artisan migrate
+php artisan db:seed           # creates roles/permissions + the first super admin
 
 # Frontend
 cd ../frontend
@@ -29,24 +33,30 @@ npm install
 
 ## Running locally
 
-Open two terminals:
+Two terminals:
 
 ```bash
-# Terminal 1 – API on http://localhost:8000
-cd backend
-php artisan serve
-
-# Terminal 2 – website on http://localhost:5173
-cd frontend
-npm run dev
+cd backend  && php artisan serve    # API  → http://localhost:8000
+cd frontend && npm run dev          # Site → http://localhost:5173
 ```
 
-The Vite dev server proxies `/api/*` to Laravel, so the frontend calls `api.get('/health')`
-(see `frontend/src/lib/api.ts`). Open http://localhost:5173 — it should say **Backend connected**.
+Open http://localhost:5173. The Vite dev server proxies `/api` and `/sanctum` to Laravel,
+so cookie-based login works without extra configuration.
 
-## Configuration
+## Roles
 
-- `backend/.env` → `FRONTEND_URL` lists allowed CORS origins (comma-separated).
-- `frontend/.env` → `VITE_API_URL` is the backend URL in production (leave empty in dev).
-- API routes live in `backend/routes/api.php`; auth uses Sanctum bearer tokens
-  (usable by both the website and a future mobile app).
+| Role | Can do |
+|---|---|
+| `user` | Translator, speech tools, learning, quizzes, own history and settings |
+| `admin` | + manage users, content, quizzes, view analytics |
+| `super_admin` | + manage admin accounts and system settings |
+
+New registrations get `user`. The first `super_admin` comes from `SUPERADMIN_EMAIL` /
+`SUPERADMIN_PASSWORD` in `backend/.env` when you run `php artisan db:seed`.
+
+## Tests
+
+```bash
+cd backend  && php artisan test
+cd frontend && npm run build && npm run lint
+```
