@@ -3,9 +3,11 @@ import {
   ClipboardList,
   Hand,
   History,
+  Info,
   LayoutDashboard,
   Library,
   ListChecks,
+  LogIn,
   LogOut,
   Menu,
   MessageSquareText,
@@ -15,10 +17,11 @@ import {
   X,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { useAuth } from '../auth/AuthProvider'
 import { Logo } from '../components/Logo'
 import { ThemeToggle } from '../components/ThemeToggle'
+import { ButtonLink } from '../components/ui/Button'
 import { cn } from '../lib/cn'
 import type { Permission } from '../lib/types'
 
@@ -30,10 +33,15 @@ interface NavItem {
   permission?: Permission
 }
 
-const userNav: NavItem[] = [
+// Open to everyone, no account needed.
+const publicNav: NavItem[] = [
+  { to: '/', label: 'Sign translator', Icon: Hand, end: true },
+  { to: '/speech', label: 'Speech & text', Icon: MessageSquareText },
+]
+
+// Need an account (progress, history and settings are saved per user).
+const accountNav: NavItem[] = [
   { to: '/app', label: 'Dashboard', Icon: LayoutDashboard, end: true },
-  { to: '/app/translate', label: 'Sign translator', Icon: Hand },
-  { to: '/app/speech', label: 'Speech & text', Icon: MessageSquareText },
   { to: '/app/learn', label: 'Learn FSL', Icon: BookOpen },
   { to: '/app/practice', label: 'Practice', Icon: ListChecks },
   { to: '/app/history', label: 'History', Icon: History },
@@ -72,13 +80,18 @@ function NavList({ items, onNavigate }: { items: NavItem[]; onNavigate?: () => v
   )
 }
 
+function NavHeading({ children }: { children: string }) {
+  return <p className="mb-2 px-3 text-xs font-bold tracking-wider text-muted uppercase">{children}</p>
+}
+
+/** App layout for guests and signed-in users alike. */
 export function AppShell() {
   const { user, can, logout } = useAuth()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
-  const visibleAdmin = adminNav.filter((i) => !i.permission || can(i.permission))
+  const close = () => setOpen(false)
+  const visibleAdmin = user ? adminNav.filter((i) => !i.permission || can(i.permission)) : []
 
-  // Nav links close the mobile menu themselves (onNavigate); Escape closes it too.
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
@@ -88,34 +101,74 @@ export function AppShell() {
 
   const onLogout = async () => {
     await logout()
-    navigate('/login', { replace: true })
+    navigate('/', { replace: true })
   }
 
   const sidebar = (
     <nav aria-label="Main" className="flex h-full flex-col gap-6 px-3 py-5">
-      <div className="px-2">
+      <Link to="/" onClick={close} className="self-start rounded-lg px-2" aria-label="SignBridge, sign translator">
         <Logo />
-      </div>
-      <NavList items={userNav} onNavigate={() => setOpen(false)} />
-      {visibleAdmin.length > 0 && (
+      </Link>
+
+      <NavList items={publicNav} onNavigate={close} />
+
+      {user ? (
         <div>
-          <p className="mb-2 px-3 text-xs font-bold tracking-wider text-muted uppercase">Administration</p>
-          <NavList items={visibleAdmin} onNavigate={() => setOpen(false)} />
+          <NavHeading>Your account</NavHeading>
+          <NavList items={accountNav} onNavigate={close} />
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-border bg-surface-2 p-4">
+          <p className="font-semibold">Save your progress</p>
+          <p className="mt-1 text-sm text-muted">
+            The translator works without an account. Sign in to save history, follow lessons and keep your settings.
+          </p>
+          <div className="mt-3 flex flex-col gap-2">
+            <ButtonLink to="/register" onClick={close}>
+              Create free account
+            </ButtonLink>
+            <ButtonLink to="/login" variant="secondary" onClick={close} icon={<LogIn className="size-4" aria-hidden />}>
+              Sign in
+            </ButtonLink>
+          </div>
         </div>
       )}
+
+      {visibleAdmin.length > 0 && (
+        <div>
+          <NavHeading>Administration</NavHeading>
+          <NavList items={visibleAdmin} onNavigate={close} />
+        </div>
+      )}
+
       <div className="mt-auto border-t border-border px-2 pt-4">
-        <p className="truncate font-semibold">{user?.name}</p>
-        <p className="truncate text-sm text-muted">{user?.email}</p>
-        <div className="mt-3 flex items-center gap-1">
+        {user && (
+          <>
+            <p className="truncate font-semibold">{user.name}</p>
+            <p className="truncate text-sm text-muted">{user.email}</p>
+          </>
+        )}
+        <div className="mt-3 flex flex-wrap items-center gap-1">
           <ThemeToggle />
-          <button
-            type="button"
-            onClick={onLogout}
-            className="inline-flex min-h-11 items-center gap-2 rounded-xl px-3 font-medium text-muted hover:bg-surface-2 hover:text-text"
+          <NavLink
+            to="/about"
+            onClick={close}
+            className="inline-flex size-11 items-center justify-center rounded-xl text-muted hover:bg-surface-2 hover:text-text"
+            aria-label="About SignBridge"
+            title="About SignBridge"
           >
-            <LogOut className="size-5" aria-hidden />
-            Sign out
-          </button>
+            <Info className="size-5" aria-hidden />
+          </NavLink>
+          {user && (
+            <button
+              type="button"
+              onClick={onLogout}
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl px-3 font-medium text-muted hover:bg-surface-2 hover:text-text"
+            >
+              <LogOut className="size-5" aria-hidden />
+              Sign out
+            </button>
+          )}
         </div>
       </div>
     </nav>
@@ -131,29 +184,38 @@ export function AppShell() {
       </a>
 
       {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 hidden w-68 border-r border-border bg-surface lg:block">{sidebar}</aside>
+      <aside className="fixed inset-y-0 left-0 hidden w-68 overflow-y-auto border-r border-border bg-surface lg:block">{sidebar}</aside>
 
       {/* Mobile top bar + drawer */}
       <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-surface/95 px-4 backdrop-blur lg:hidden">
-        <Logo />
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="inline-flex size-11 items-center justify-center rounded-xl hover:bg-surface-2"
-          aria-label="Open menu"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-        >
-          <Menu className="size-6" aria-hidden />
-        </button>
+        <Link to="/" aria-label="SignBridge, sign translator" className="rounded-lg">
+          <Logo />
+        </Link>
+        <div className="flex items-center gap-1">
+          {!user && (
+            <ButtonLink to="/login" variant="ghost">
+              Sign in
+            </ButtonLink>
+          )}
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="inline-flex size-11 items-center justify-center rounded-xl hover:bg-surface-2"
+            aria-label="Open menu"
+            aria-expanded={open}
+            aria-controls="mobile-nav"
+          >
+            <Menu className="size-6" aria-hidden />
+          </button>
+        </div>
       </header>
       {open && (
         <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label="Menu">
-          <button type="button" className="absolute inset-0 bg-black/40" aria-label="Close menu" onClick={() => setOpen(false)} />
+          <button type="button" className="absolute inset-0 bg-black/40" aria-label="Close menu" onClick={close} />
           <aside id="mobile-nav" className="absolute inset-y-0 left-0 w-[min(20rem,85vw)] overflow-y-auto bg-surface shadow-xl">
             <button
               type="button"
-              onClick={() => setOpen(false)}
+              onClick={close}
               className="absolute top-4 right-3 inline-flex size-11 items-center justify-center rounded-xl hover:bg-surface-2"
               aria-label="Close menu"
             >

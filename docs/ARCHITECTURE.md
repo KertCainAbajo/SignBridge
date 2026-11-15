@@ -1,7 +1,12 @@
 # SignBridge – Architecture & Implementation Plan
 
 AI-assisted Filipino Sign Language (FSL) communication platform.
-Status: **Phase 0 (Foundation) complete** — schema, Sanctum SPA auth, RBAC, preferences, design system,
+Status: **Phase 1 in progress**. The sign translator runs a real FSL model trained on FSL-105
+(105 words, 4 signers; see `ml/README.md` and `ml/runs/report.md`). On signers it never saw: 67% top-1,
+89% top-5; with the "Not recognized" threshold it answers 46% of signs at 90% precision.
+The translator is public (no login) and translation history is done. The speech tools page is next.
+The earlier "teach your own signs" k-NN prototype was removed at the user's request.
+Earlier: **Phase 0 (Foundation) complete** — schema, Sanctum SPA auth, RBAC, preferences, design system,
 app shell. Local dev runs on MySQL; code is kept PostgreSQL-compatible for Supabase.
 
 ---

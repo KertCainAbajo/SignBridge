@@ -100,6 +100,32 @@ class AuthTest extends TestCase
             ->assertTooManyRequests();
     }
 
+    public function test_any_local_dev_port_can_register(): void
+    {
+        $this->withHeaders(['Origin' => 'http://localhost:5174', 'Referer' => 'http://localhost:5174/'])
+            ->postJson('/api/register', [
+                'name' => 'Port Tester',
+                'email' => 'port@example.com',
+                'password' => 'secret123',
+                'password_confirmation' => 'secret123',
+            ])->assertCreated();
+
+        $this->assertAuthenticated('web');
+    }
+
+    public function test_unlisted_origin_is_rejected_before_creating_an_account(): void
+    {
+        $this->withHeaders(['Origin' => 'https://evil.example', 'Referer' => 'https://evil.example/'])
+            ->postJson('/api/register', [
+                'name' => 'Nope',
+                'email' => 'nope@example.com',
+                'password' => 'secret123',
+                'password_confirmation' => 'secret123',
+            ])->assertForbidden();
+
+        $this->assertDatabaseMissing('users', ['email' => 'nope@example.com']);
+    }
+
     public function test_guest_cannot_access_protected_routes(): void
     {
         $this->getJson('/api/user')->assertUnauthorized();

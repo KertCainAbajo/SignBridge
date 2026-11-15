@@ -1,0 +1,449 @@
+{
+  "version": "fsl105-gru-20261115",
+  "frames": 32,
+  "features": 144,
+  "temperature": 0.7945,
+  "threshold": 0.81,
+  "labels": [
+    {
+      "label": "GOOD MORNING",
+      "category": "Greeting"
+    },
+    {
+      "label": "GOOD AFTERNOON",
+      "category": "Greeting"
+    },
+    {
+      "label": "GOOD EVENING",
+      "category": "Greeting"
+    },
+    {
+      "label": "HELLO",
+      "category": "Greeting"
+    },
+    {
+      "label": "HOW ARE YOU",
+      "category": "Greeting"
+    },
+    {
+      "label": "I'M FINE",
+      "category": "Greeting"
+    },
+    {
+      "label": "NICE TO MEET YOU",
+      "category": "Greeting"
+    },
+    {
+      "label": "THANK YOU",
+      "category": "Greeting"
+    },
+    {
+      "label": "YOU'RE WELCOME",
+      "category": "Greeting"
+    },
+    {
+      "label": "SEE YOU TOMORROW",
+      "category": "Greeting"
+    },
+    {
+      "label": "UNDERSTAND",
+      "category": "Survival"
+    },
+    {
+      "label": "DON'T UNDERSTAND",
+      "category": "Survival"
+    },
+    {
+      "label": "KNOW",
+      "category": "Survival"
+    },
+    {
+      "label": "DON'T KNOW",
+      "category": "Survival"
+    },
+    {
+      "label": "NO",
+      "category": "Survival"
+    },
+    {
+      "label": "YES",
+      "category": "Survival"
+    },
+    {
+      "label": "WRONG",
+      "category": "Survival"
+    },
+    {
+      "label": "CORRECT",
+      "category": "Survival"
+    },
+    {
+      "label": "SLOW",
+      "category": "Survival"
+    },
+    {
+      "label": "FAST",
+      "category": "Survival"
+    },
+    {
+      "label": "ONE",
+      "category": "Number"
+    },
+    {
+      "label": "TWO",
+      "category": "Number"
+    },
+    {
+      "label": "THREE",
+      "category": "Number"
+    },
+    {
+      "label": "FOUR",
+      "category": "Number"
+    },
+    {
+      "label": "FIVE",
+      "category": "Number"
+    },
+    {
+      "label": "SIX",
+      "category": "Number"
+    },
+    {
+      "label": "SEVEN",
+      "category": "Number"
+    },
+    {
+      "label": "EIGHT",
+      "category": "Number"
+    },
+    {
+      "label": "NINE",
+      "category": "Number"
+    },
+    {
+      "label": "TEN",
+      "category": "Number"
+    },
+    {
+      "label": "JANUARY",
+      "category": "Calendar"
+    },
+    {
+      "label": "FEBRUARY",
+      "category": "Calendar"
+    },
+    {
+      "label": "MARCH",
+      "category": "Calendar"
+    },
+    {
+      "label": "APRIL",
+      "category": "Calendar"
+    },
+    {
+      "label": "MAY",
+      "category": "Calendar"
+    },
+    {
+      "label": "JUNE",
+      "category": "Calendar"
+    },
+    {
+      "label": "JULY",
+      "category": "Calendar"
+    },
+    {
+      "label": "AUGUST",
+      "category": "Calendar"
+    },
+    {
+      "label": "SEPTEMBER",
+      "category": "Calendar"
+    },
+    {
+      "label": "OCTOBER",
+      "category": "Calendar"
+    },
+    {
+      "label": "NOVEMBER",
+      "category": "Calendar"
+    },
+    {
+      "label": "DECEMBER",
+      "category": "Calendar"
+    },
+    {
+      "label": "MONDAY",
+      "category": "Days"
+    },
+    {
+      "label": "TUESDAY",
+      "category": "Days"
+    },
+    {
+      "label": "WEDNESDAY",
+      "category": "Days"
+    },
+    {
+      "label": "THURSDAY",
+      "category": "Days"
+    },
+    {
+      "label": "FRIDAY",
+      "category": "Days"
+    },
+    {
+      "label": "SATURDAY",
+      "category": "Days"
+    },
+    {
+      "label": "SUNDAY",
+      "category": "Days"
+    },
+    {
+      "label": "TODAY",
+      "category": "Days"
+    },
+    {
+      "label": "TOMORROW",
+      "category": "Days"
+    },
+    {
+      "label": "YESTERDAY",
+      "category": "Days"
+    },
+    {
+      "label": "FATHER",
+      "category": "Family"
+    },
+    {
+      "label": "MOTHER",
+      "category": "Family"
+    },
+    {
+      "label": "SON",
+      "category": "Family"
+    },
+    {
+      "label": "DAUGHTER",
+      "category": "Family"
+    },
+    {
+      "label": "GRANDFATHER",
+      "category": "Family"
+    },
+    {
+      "label": "GRANDMOTHER",
+      "category": "Family"
+    },
+    {
+      "label": "UNCLE",
+      "category": "Family"
+    },
+    {
+      "label": "AUNTIE",
+      "category": "Family"
+    },
+    {
+      "label": "COUSIN",
+      "category": "Family"
+    },
+    {
+      "label": "PARENTS",
+      "category": "Family"
+    },
+    {
+      "label": "BOY",
+      "category": "Relationships"
+    },
+    {
+      "label": "GIRL",
+      "category": "Relationships"
+    },
+    {
+      "label": "MAN",
+      "category": "Relationships"
+    },
+    {
+      "label": "WOMAN",
+      "category": "Relationships"
+    },
+    {
+      "label": "DEAF",
+      "category": "Relationships"
+    },
+    {
+      "label": "HARD OF HEARING",
+      "category": "Relationships"
+    },
+    {
+      "label": "WHEELCHAIR USER",
+      "category": "Relationships"
+    },
+    {
+      "label": "BLIND",
+      "category": "Relationships"
+    },
+    {
+      "label": "DEAF BLIND",
+      "category": "Relationships"
+    },
+    {
+      "label": "MARRIED",
+      "category": "Relationships"
+    },
+    {
+      "label": "BLUE",
+      "category": "Color"
+    },
+    {
+      "label": "GREEN",
+      "category": "Color"
+    },
+    {
+      "label": "RED",
+      "category": "Color"
+    },
+    {
+      "label": "BROWN",
+      "category": "Color"
+    },
+    {
+      "label": "BLACK",
+      "category": "Color"
+    },
+    {
+      "label": "WHITE",
+      "category": "Color"
+    },
+    {
+      "label": "YELLOW",
+      "category": "Color"
+    },
+    {
+      "label": "ORANGE",
+      "category": "Color"
+    },
+    {
+      "label": "GRAY",
+      "category": "Color"
+    },
+    {
+      "label": "PINK",
+      "category": "Color"
+    },
+    {
+      "label": "VIOLET",
+      "category": "Color"
+    },
+    {
+      "label": "LIGHT",
+      "category": "Color"
+    },
+    {
+      "label": "DARK",
+      "category": "Color"
+    },
+    {
+      "label": "BREAD",
+      "category": "Food"
+    },
+    {
+      "label": "EGG",
+      "category": "Food"
+    },
+    {
+      "label": "FISH",
+      "category": "Food"
+    },
+    {
+      "label": "MEAT",
+      "category": "Food"
+    },
+    {
+      "label": "CHICKEN",
+      "category": "Food"
+    },
+    {
+      "label": "SPAGHETTI",
+      "category": "Food"
+    },
+    {
+      "label": "RICE",
+      "category": "Food"
+    },
+    {
+      "label": "LONGANISA",
+      "category": "Food"
+    },
+    {
+      "label": "SHRIMP",
+      "category": "Food"
+    },
+    {
+      "label": "CRAB",
+      "category": "Food"
+    },
+    {
+      "label": "HOT",
+      "category": "Drink"
+    },
+    {
+      "label": "COLD",
+      "category": "Drink"
+    },
+    {
+      "label": "JUICE",
+      "category": "Drink"
+    },
+    {
+      "label": "MILK",
+      "category": "Drink"
+    },
+    {
+      "label": "COFFEE",
+      "category": "Drink"
+    },
+    {
+      "label": "TEA",
+      "category": "Drink"
+    },
+    {
+      "label": "BEER",
+      "category": "Drink"
+    },
+    {
+      "label": "WINE",
+      "category": "Drink"
+    },
+    {
+      "label": "SUGAR",
+      "category": "Drink"
+    },
+    {
+      "label": "NO SUGAR",
+      "category": "Drink"
+    }
+  ],
+  "evaluation": {
+    "method": "leave-one-signer-out (4 signers)",
+    "unseen_signer_top1": 0.6717,
+    "unseen_signer_top5": 0.8929,
+    "coverage_at_threshold": 0.4617,
+    "precision_at_threshold": 0.9044,
+    "per_signer_top1": {
+      "0": 0.7314,
+      "1": 0.6412,
+      "2": 0.7333,
+      "3": 0.5856
+    },
+    "clips": 2129
+  },
+  "dataset": {
+    "name": "FSL-105",
+    "author": "Isaiah Jassen Tupal (De La Salle University)",
+    "license": "CC BY 4.0",
+    "url": "https://doi.org/10.17632/48y2y99mb9.2"
+  }
+}

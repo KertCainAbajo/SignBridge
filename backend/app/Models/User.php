@@ -41,10 +41,20 @@ class User extends Authenticatable
         return $this->hasOne(UserPreference::class);
     }
 
-    /** Returns the user's preferences, creating defaults on first access. */
+    /** Returns the user's preferences (uses the loaded relation), creating defaults if missing. */
     public function preferencesOrDefault(): UserPreference
     {
-        return $this->preferences()->firstOrCreate([]);
+        if (! $this->preferences) {
+            $this->setRelation('preferences', $this->preferences()->create());
+        }
+
+        return $this->preferences;
+    }
+
+    /** Eager-loads everything the API's user payload needs (3 queries total). */
+    public function loadAuthPayload(): static
+    {
+        return $this->loadMissing(['roles.permissions', 'permissions', 'preferences']);
     }
 
     public function favoriteSigns(): BelongsToMany

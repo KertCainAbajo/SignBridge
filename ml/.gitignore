@@ -1,0 +1,6 @@
+.venv/
+data/
+models/*.task
+__pycache__/
+*.pyc
+runs/

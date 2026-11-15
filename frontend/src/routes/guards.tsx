@@ -12,7 +12,9 @@ function SessionCheck({ children }: { children: React.ReactNode }) {
     return (
       <div className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-4 px-4">
         <Alert tone="error" title="Cannot reach SignBridge">
-          The server is not responding. Make sure the backend is running, then try again.
+          The server is not responding. If you’re developing locally, start both servers with{' '}
+          <code className="rounded bg-surface-2 px-1.5 py-0.5 text-text">npm run dev</code> in the project folder, then try
+          again.
         </Alert>
         <Button onClick={refetch}>Try again</Button>
       </div>

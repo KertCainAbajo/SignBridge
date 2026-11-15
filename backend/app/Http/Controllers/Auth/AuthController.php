@@ -21,32 +21,29 @@ class AuthController extends Controller
         $user = DB::transaction(function () use ($request) {
             $user = User::create($request->validated());
             $user->assignRole('user');
-            $user->preferences()->create();
+            $user->setRelation('preferences', $user->preferences()->create());
 
             return $user;
         });
 
-        Auth::guard('web')->login($user);
-        $request->session()->regenerate();
+        $this->startSession($request, $user);
 
         return (new UserResource($user))->response()->setStatusCode(201);
     }
 
     public function login(LoginRequest $request): UserResource
     {
-        $credentials = $request->only('email', 'password');
+        $guard = Auth::guard('web');
 
-        if (! Auth::guard('web')->attempt($credentials, $request->boolean('remember'))) {
-            throw ValidationException::withMessages([
-                'email' => 'These credentials do not match our records.',
-            ]);
+        if (! $guard->attempt($request->only('email', 'password'), $request->boolean('remember'))) {
+            throw ValidationException::withMessages(['email' => __('auth.failed')]);
         }
 
-        $user = Auth::guard('web')->user();
+        /** @var User $user */
+        $user = $guard->user();
 
         if (! $user->is_active) {
-            Auth::guard('web')->logout();
-
+            $guard->logout();
             throw ValidationException::withMessages([
                 'email' => 'This account has been deactivated. Please contact an administrator.',
             ]);
@@ -70,5 +67,12 @@ class AuthController extends Controller
     public function me(Request $request): UserResource
     {
         return new UserResource($request->user());
+    }
+
+    private function startSession(Request $request, User $user): void
+    {
+        Auth::guard('web')->login($user);
+        $request->session()->regenerate();
+        $user->forceFill(['last_active_at' => now()])->saveQuietly();
     }
 }

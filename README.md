@@ -33,12 +33,13 @@ npm install
 
 ## Running locally
 
-Two terminals:
+From the project folder (first time: `npm install`):
 
 ```bash
-cd backend  && php artisan serve    # API  → http://localhost:8000
-cd frontend && npm run dev          # Site → http://localhost:5173
+npm run dev      # starts the API (http://localhost:8000) and the website (http://localhost:5173)
 ```
+
+Press `Ctrl+C` to stop both. `npm run dev:api` / `npm run dev:web` start just one of them.
 
 Open http://localhost:5173. The Vite dev server proxies `/api` and `/sanctum` to Laravel,
 so cookie-based login works without extra configuration.
@@ -57,6 +58,13 @@ New registrations get `user`. The first `super_admin` comes from `SUPERADMIN_EMA
 ## Tests
 
 ```bash
-cd backend  && php artisan test
-cd frontend && npm run build && npm run lint
+npm test         # backend tests + frontend type-check, build and lint
 ```
+
+Health check: `GET /api/health` reports API and database status (503 if the DB is down).
+
+## Production notes
+
+Run `php artisan optimize` after deploying (caches config, routes, events, views), set
+`APP_ENV=production`, `APP_DEBUG=false`, and use `redis` or `database` for cache/session when
+running more than one server.

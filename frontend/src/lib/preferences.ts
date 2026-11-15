@@ -2,6 +2,18 @@ import type { Preferences, Theme } from './types'
 
 const THEME_KEY = 'sb-theme'
 
+/** Used for guests (no account) and as the server's defaults. */
+export const DEFAULT_PREFERENCES: Preferences = {
+  theme: 'system',
+  font_scale: 100,
+  high_contrast: false,
+  reduced_motion: false,
+  tts_voice: null,
+  tts_rate: 1,
+  stt_language: 'fil-PH',
+  save_history: true,
+}
+
 export function getStoredTheme(): Theme {
   try {
     const t = localStorage.getItem(THEME_KEY)

@@ -3,7 +3,7 @@ import { useAuth } from '../auth/AuthProvider'
 import { ButtonLink } from '../components/ui/Button'
 
 const modes = [
-  { Icon: Hand, title: 'Sign → Text', body: 'Recognizes supported FSL signs from your camera, in your browser.' },
+  { Icon: Hand, title: 'Sign → Text', body: 'Recognizes 105 everyday FSL words from your camera, right in your browser.' },
   { Icon: Volume2, title: 'Text → Speech', body: 'Reads typed or recognized text aloud in Filipino or English voices.' },
   { Icon: Mic, title: 'Speech → Text', body: 'Turns spoken words into readable captions, with typing as a fallback.' },
   { Icon: BookOpen, title: 'Learn FSL', body: 'Lessons, vocabulary and quizzes from beginner to advanced.' },
@@ -57,16 +57,16 @@ export default function Landing() {
             speech captions and text-to-speech in one place, and learn FSL along the way.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <ButtonLink to={user ? '/app/translate' : '/register'} size="lg" icon={<Hand className="size-5" aria-hidden />}>
-              {user ? 'Open translator' : 'Get started free'}
+            <ButtonLink to="/" size="lg" icon={<Hand className="size-5" aria-hidden />}>
+              Open translator
             </ButtonLink>
-            <ButtonLink to={user ? '/app/learn' : '/login'} variant="secondary" size="lg">
-              {user ? 'Learn FSL' : 'Sign in'}
+            <ButtonLink to={user ? '/app' : '/register'} variant="secondary" size="lg">
+              {user ? 'Your dashboard' : 'Create free account'}
             </ButtonLink>
           </div>
           <p className="mt-6 flex items-center gap-2 text-sm text-muted">
             <Lock className="size-4" aria-hidden />
-            Camera video stays on your device. Nothing is recorded or uploaded.
+            No account needed. Camera video stays on your device; nothing is recorded or uploaded.
           </p>
         </div>
 
@@ -104,8 +104,9 @@ export default function Landing() {
             What SignBridge can and can’t do yet
           </h2>
           <p className="mt-3 text-muted">
-            Sign recognition currently covers a limited, published list of FSL signs, starting with fingerspelled
-            letters. It is not a full FSL interpreter. When the system isn’t confident, it says{' '}
+            Sign recognition currently covers 105 common FSL words (greetings, numbers, days, months, family,
+            colors, food and more), one word at a time. It does not yet understand fingerspelling, sentences or
+            facial grammar, and it is not a full FSL interpreter. When the system isn’t confident, it says{' '}
             <strong className="text-text">“Not recognized”</strong> instead of guessing. For important conversations,
             such as medical or legal ones, please use a qualified FSL interpreter.
           </p>

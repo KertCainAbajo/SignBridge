@@ -24,18 +24,12 @@ export function PublicLayout() {
           </Link>
           <nav aria-label="Account" className="flex items-center gap-1 sm:gap-2">
             <ThemeToggle />
-            {user ? (
-              <ButtonLink to="/app">Open dashboard</ButtonLink>
-            ) : (
-              <>
-                <ButtonLink to="/login" variant="ghost">
-                  Sign in
-                </ButtonLink>
-                <ButtonLink to="/register" className="hidden sm:inline-flex">
-                  Create account
-                </ButtonLink>
-              </>
+            {!user && (
+              <ButtonLink to="/login" variant="ghost">
+                Sign in
+              </ButtonLink>
             )}
+            <ButtonLink to="/">Open translator</ButtonLink>
           </nav>
         </div>
       </header>

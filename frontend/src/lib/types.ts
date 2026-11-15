@@ -31,6 +31,22 @@ export interface User {
   created_at: string
 }
 
+export type TranslationSource = 'sign' | 'speech' | 'text'
+
+export interface Translation {
+  id: number
+  source: TranslationSource
+  text: string
+  avg_confidence: number | null
+  model_version: string | null
+  created_at: string
+}
+
+export interface Paginated<T> {
+  data: T[]
+  meta: { current_page: number; last_page: number; total: number; per_page: number }
+}
+
 export interface AdminOverview {
   users_total: number
   users_active_7d: number
